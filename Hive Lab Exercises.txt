@@ -1,0 +1,58 @@
+create table emppriya(eid int ,ename varchar(50))
+    row format delimited
+    fields terminated by '\t'
+    lines terminated by '\n'
+    stored as textfile;
+
+
+load data local inpath '/home/cloudera/Desktop/employee' overwrite into table emppriya;
+
+select * from emppriya;
+
+Queries:
+1.Create employee table
+2.Load data from local file system
+3.Perorm basic Queries-where,and,or ,grupby,aggreagate functions ,joins ...etc.,
+
+1.Create employee table
+2.Load data from Hive Table(Hint :Use Insert into)
+3.Perform Basic Queries
+How to Copy data from hive to hive table
+create table empcs(eid int,ename varchar(50));
+insert into table empcs select * from emppriya where
+ eid=1 or eid=6;
+select * from empcs;
+
+1.Create employee table
+2.Load data from HDFS
+3.Perform Basic Queries
+
+1.Download any realtime data in csv format and store in to hive
+2.Perform Analysis on above
+
+
+Joins
+1.Table1 -empid,empname
+2.Table 2.empid ,esalary,Deptid,specialization
+Queries
+1.Display emplid and name
+2.Display eid ,specialization who earned highest salary
+3.Display count of employees according to specialization
+4.Display empid ,empname and deptid(USe :joins)
+5.Display empnname,Deptid and specialization(USe :joins)
+6.Display details from two tables using leftouter join
+7.Display details from two tables using Rightouter join
+8.Display details from two tables using Fulltouter join
+9.Display  average salary from table
+10.Display average salary according to specialization
+
+
+
+
+
+
+
+
+
+
+
