@@ -44,8 +44,40 @@ Queries
 7.Display details from two tables using Rightouter join
 8.Display details from two tables using Fulltouter join
 9.Display  average salary from table
+Create directory in hadoop file system
+1.hadoop dfs -mkdir devi
+Copy the data from Local to HDFS
+2.hadoop dfs -copyFromLocal /home/cloudera/Desktop/employee  /devi
+Check content from hdfs
+3.hadoop dfs -cat devi/employee
+4.Now redirect to hIVE
+create table emp222(eid tinyint ,ename string)
+    row format delimited
+    fields terminated by '\t'
+    lines terminated by '\n'
+    stored as textfile;
+load data  inpath 'devi/employee' overwrite into table emp222;
+
+select  * from emp222;
+
+
+
+
+
+
+
+
+
+
 10.Display average salary according to specialization
 
+
+Create  Views
+
+Apply Queries on View
+
+Create table with partitioning(Some Fields are stored in one file and
+other fields in some otherfile)
 
 
 
