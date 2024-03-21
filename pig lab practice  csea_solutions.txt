@@ -1,0 +1,88 @@
+Consider the Sample.txt file and apply the follwing queries
+
+1201,Gopal K,45000,Technical manager
+1202,Manisha Naj,45000,Proof reader
+1203,Masthanvali Rekha,40000,Technical writer
+1204,Kiran Kumar,40000,Hr Admin
+1205,Sunil Kumar,30000,Op Admin
+
+Queries-using PigLatin
+1.Load the above data from hdfs to Pig Environment
+2.Dump the result
+3.Display details of Manisha(FILTER)
+4.Display details of persons who are working in Admin department(FILTER)
+5.Display the count of employees
+6.Display the the total salary given by company
+7.Display average salary 
+8.Display the count of employees deparmentwise
+9.Seperate the first name and last name of employees
+10.Find the word count of name
+
+Solutions
+
+1.Load the above data from hdfs to Pig Environment
+x = LOAD '/user/cloudera/devipriya/sample.txt' USING PigStorage(',') as (id:int,name:chararray,sal:int,Dept:chararray); 
+
+2.Dump the result
+DUMP x
+
+3.Display details of Manisha(FILTER)
+Filter_Result = FILTER x BY name=='Manisha';
+DUMP Filter_Result;
+
+4.Display details of persons who are working in Admin department(FILTER)
+Filter_persons = FILTER x By Dept='Admin';
+
+5.Display the count of employees
+ 
+result=GROUP x All;
+dump result;
+count_emp=FOREACH result GENERATE COUNT(x);
+DUMP count_emp;
+					
+6.Display the the total salary given by company
+result=GROUP x All;
+dump result;
+total_sal=FOREACH result GENERATE SUM(x.salary);
+DUMP total_sal;
+  
+(or)
+total_sal=FOREACH (GROUP x All) GENERATE SUM(x.salary);
+
+7.Display average salary 
+
+result=GROUP x All;
+dump result;
+avg_sal = FOREACH result GENERATE AVG(x.salary);
+DUMP avg_sal;
+  
+(or)
+avg_sal = FOREACH (GROUP x All) GENERATE AVG(x.salary);
+DUMP avg_sal;
+
+8.Display the count of employees departmentwise
+
+result=GROUP x BY Dept;
+dump result;
+count_emp=FOREACH result GENERATE COUNT(x);
+DUMP count_emp;
+
+9.Seperate the first name and last name of employees
+
+name_sep  =  FOREACH x GENERATE TOKENIZE(name);
+DUMP name_sep;
+
+10.Find the word count of name
+wc = FOREACH (GROUP x BY name)  GENERATE GROUP AS name,COUNT(x);
+
+
+
+
+
+
+
+
+
+
+
+
