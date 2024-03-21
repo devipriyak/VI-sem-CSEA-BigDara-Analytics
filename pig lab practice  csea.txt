@@ -1,0 +1,120 @@
+[cloudera@quickstart ~]$ pig 
+grunt>
+
+OR
+
+[cloudera@quickstart ~]$ pig -x mapreduce
+grunt>
+
+-------------------------------------
+You can exit the Grunt shell using ‘ctrl + d’.
+-----------------------------------
+[cloudera@quickstart ~]$ hadoop fs -cat /user/cloudera/Anil/sample.txt
+
+1201,Gopal K,45000,Technical manager
+1202,Manisha Naj,45000,Proof reader
+1203,Masthanvali Rekha,40000,Technical writer
+1204,Kiran Kumar,40000,Hr Admin
+1205,Sunil Kumar,30000,Op Admin
+
+Queries-using PigLatin
+1.Load the above data from hdfs to Pig Environment
+2.Dump the result
+3.Display details of Manisha(FILTER)
+4.Display details of persons who are working in Admin department(FILTER)
+5.Display the count of employees
+6.Display the the total salary given by company
+7.Display average salary 
+8.Display the count of employees deparmentwise
+9.Seperate the first name and last name of employees
+10.Find the name count
+
+
+
+
+
+
+hadoop fs -put sample.txt /user/cloudera
+
+-------------------------------------
+We can execute a Pig script by directly entering the Pig Latin statements in it.
+
+grunt> x = LOAD '/user/cloudera/devipriya/sample.txt' USING PigStorage(',') as (id:int,name:chararray,sal:int,Dept:chararray);
+----------------------------------------------------
+
+Dump x;
+----------------
+STORE x INTO '/user/cloudera/devipriyaoutput1' USING PigStorage (',');
+
+grunt> Describe Relation_name
+
+grunt> explain x;
+grunt> illustrate x;
+-------------------------------
+student_details.txt
+
+001,Rajiv,Reddy,21,9848022337,Hyderabad
+002,siddarth,Battacharya,22,9848022338,Kolkata
+003,Rajesh,Khanna,22,9848022339,Delhi
+004,Preethi,Agarwal,21,9848022330,Pune
+005,Trupthi,Mohanthy,23,9848022336,Bhuwaneshwar
+006,Archana,Mishra,23,9848022335,Chennai
+007,Komal,Nayak,24,9848022334,trivendram
+008,Bharathi,Nambiayar,24,9848022333,Chennai
+
+by put command placed into HDFS
+
+grunt> student_details = LOAD '/user/cloudera/Anil/student_details.txt' USING PigStorage(',')
+   as (id:int, firstname:chararray, lastname:chararray, age:int, phone:chararray, city:chararray);
+-------------------------
+grunt> group_data = GROUP student_details by age;
+
+grunt> Dump group_data;
+----------------------
+grunt> Describe group_data;
+---------------------
+Grouping by Multiple Columns
+grunt> group_multiple = GROUP student_details by (age, city);
+-----------------
+
+Group All
+grunt> group_all = GROUP student_details All;
+----------------
+
+Grouping Two Relations using Cogroup
+
+student_details.txt
+
+001,Rajiv,Reddy,21,9848022337,Hyderabad
+002,siddarth,Battacharya,22,9848022338,Kolkata
+003,Rajesh,Khanna,22,9848022339,Delhi
+004,Preethi,Agarwal,21,9848022330,Pune
+005,Trupthi,Mohanthy,23,9848022336,Bhuwaneshwar
+006,Archana,Mishra,23,9848022335,Chennai
+007,Komal,Nayak,24,9848022334,trivendram
+008,Bharathi,Nambiayar,24,9848022333,Chennai
+
+employee_details.txt
+
+001,Robin,22,newyork 
+002,BOB,23,Kolkata 
+003,Maya,23,Tokyo 
+004,Sara,25,London 
+005,David,23,Bhuwaneshwar 
+006,Maggy,22,Chennai
+-------------------
+
+grunt> student_details = LOAD '/user/cloudera/Anil/student_details.txt' USING PigStorage(',')
+   as (id:int, firstname:chararray, lastname:chararray, age:int, phone:chararray, city:chararray); 
+  
+grunt> employee_details = LOAD '/user/cloudera/Anil/employee_details.txt' USING PigStorage(',')
+   as (id:int, name:chararray, age:int, city:chararray);
+
+grunt> cogroup_data = COGROUP student_details by age, employee_details by age;
+grunt> Dump cogroup_data;
+---------------------------
+Joins can be of the following types −
+
+Self-join
+Inner-join
+Outer-join − left join, right join, and full join
